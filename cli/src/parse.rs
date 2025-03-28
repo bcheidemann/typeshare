@@ -8,7 +8,8 @@ use std::{
 };
 use typeshare_core::{
     context::{ParseContext, ParseFileContext},
-    language::{CrateName, CrateTypes, SupportedLanguage, SINGLE_FILE_CRATE_NAME},
+    crate_utils::{CrateName, SINGLE_FILE_CRATE_NAME},
+    language::{CrateTypes, SupportedLanguage},
     parser::{ParseError, ParsedData},
     RenameExt,
 };
@@ -19,10 +20,7 @@ fn parse_file_context(
     dir_entry: &DirEntry,
 ) -> anyhow::Result<Option<ParseFileContext>> {
     let crate_name = if multi_file {
-        let Some(crate_name) = CrateName::find_crate_name(dir_entry.path()) else {
-            return Ok(None);
-        };
-        crate_name
+        CrateName::find_crate_name(dir_entry.path()).context("Failed to find crate name")?
     } else {
         SINGLE_FILE_CRATE_NAME
     };

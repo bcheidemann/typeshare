@@ -11,7 +11,8 @@ use std::{
 };
 use typeshare_core::{
     context::{ParseContext, ParseFileContext},
-    language::{CrateName, Language},
+    crate_utils::CrateName,
+    language::Language,
     reconcile::reconcile_aliases,
 };
 

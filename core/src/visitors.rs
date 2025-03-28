@@ -1,7 +1,7 @@
 //! Visitors to collect various items from the AST.
 use crate::{
     context::ParseContext,
-    language::CrateName,
+    crate_utils::CrateName,
     parser::{
         has_typeshare_annotation, parse_const, parse_enum, parse_struct, parse_type_alias,
         ErrorInfo, ParseError, ParsedData,
