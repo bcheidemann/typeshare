@@ -1,4 +1,5 @@
 use crate::{
+    crate_utils::CrateName,
     parser::{ParseError, ParsedData},
     rust_types::{
         Id, RustConst, RustEnum, RustEnumVariant, RustItem, RustStruct, RustType, RustTypeAlias,
@@ -13,9 +14,7 @@ use log::warn;
 use proc_macro2::Ident;
 use std::{
     collections::{BTreeMap, BTreeSet, HashMap, HashSet},
-    fmt::Display,
     io::Write,
-    path::Path,
     str::FromStr,
 };
 
@@ -33,51 +32,6 @@ pub use scala::Scala;
 pub use swift::GenericConstraints;
 pub use swift::Swift;
 pub use typescript::TypeScript;
-
-#[derive(Debug, Default, Clone, PartialEq, Eq, Hash, Ord, PartialOrd)]
-/// A crate name.
-pub struct CrateName(String);
-
-impl Display for CrateName {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.0)
-    }
-}
-
-impl From<String> for CrateName {
-    fn from(value: String) -> Self {
-        Self(value)
-    }
-}
-
-/// When using single file output we put all types into a single virtual name space.
-pub const SINGLE_FILE_CRATE_NAME: CrateName = CrateName(String::new());
-
-impl CrateName {
-    /// View this crate name as a string slice.
-    pub fn as_str(&self) -> &str {
-        self.0.as_str()
-    }
-
-    /// Extract the crate name from a give path.
-    pub fn find_crate_name(path: &Path) -> Option<Self> {
-        let file_name_to_crate_name = |file_name: &str| file_name.replace('-', "_");
-
-        path.iter()
-            .rev()
-            .skip_while(|p| *p != "src")
-            .nth(1)
-            .and_then(|s| s.to_str())
-            .map(file_name_to_crate_name)
-            .map(CrateName::from)
-    }
-}
-
-impl From<&str> for CrateName {
-    fn from(value: &str) -> Self {
-        CrateName(value.to_string())
-    }
-}
 
 /// A type name.
 pub type TypeName = String;
@@ -491,16 +445,4 @@ fn used_imports<'a, 'b: 'a>(
         }
     }
     used_imports
-}
-
-#[cfg(test)]
-mod test {
-    use crate::language::CrateName;
-    use std::path::Path;
-
-    #[test]
-    fn test_crate_name() {
-        let path = Path::new("/some/path/to/projects/core/foundation/op-proxy/src/android.rs");
-        assert_eq!(Some("op_proxy".into()), CrateName::find_crate_name(path));
-    }
 }

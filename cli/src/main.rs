@@ -20,17 +20,17 @@ use flexi_logger::AdaptiveFormat;
 use ignore::{overrides::OverrideBuilder, types::TypesBuilder, WalkBuilder};
 use log::{error, info};
 use parse::parallel_parse;
-use typeshare_core::language::GenericConstraints;
 #[cfg(feature = "go")]
 use typeshare_core::language::Go;
 #[cfg(feature = "python")]
 use typeshare_core::language::Python;
 use typeshare_core::{
     context::ParseContext,
-    language::{CrateName, Kotlin, Language, Scala, SupportedLanguage, Swift, TypeScript},
+    language::{Kotlin, Language, Scala, SupportedLanguage, Swift, TypeScript},
     parser::ParsedData,
     reconcile::reconcile_aliases,
 };
+use typeshare_core::{crate_utils::CrateName, language::GenericConstraints};
 
 use crate::{
     args::{Args, Command},
