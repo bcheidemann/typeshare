@@ -4,7 +4,7 @@
 //! name however we still need to see if we have any other types that reference the renamed type
 //! and update those references accordingly.
 use crate::{
-    language::CrateName,
+    crate_utils::CrateName,
     parser::ParsedData,
     rust_types::{RustEnum, RustEnumVariant, RustType, SpecialRustType},
     visitors::ImportedType,

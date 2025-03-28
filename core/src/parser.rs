@@ -1,6 +1,7 @@
 use crate::{
     context::{ParseContext, ParseFileContext},
-    language::{CrateName, SupportedLanguage},
+    crate_utils::CrateName,
+    language::SupportedLanguage,
     rename::RenameExt,
     rust_types::{
         DecoratorMap, FieldDecorator, Id, RustConst, RustConstExpr, RustEnum, RustEnumShared,

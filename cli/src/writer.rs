@@ -7,7 +7,8 @@ use std::{
     path::Path,
 };
 use typeshare_core::{
-    language::{CrateName, CrateTypes, Language, SINGLE_FILE_CRATE_NAME},
+    crate_utils::{CrateName, SINGLE_FILE_CRATE_NAME},
+    language::{CrateTypes, Language},
     parser::ParsedData,
 };
 
